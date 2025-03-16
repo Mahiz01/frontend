@@ -9,25 +9,41 @@ const TaskDetails = () => {
     const navigate = useNavigate();
     const [task, setTask] = useState(null);
     const [sate,setState] = useState("");
+    const [username,setUsername]=useState("");
     let [comments,setComments] = useState([])
-    const api = "http://localhost:5000/api/task/gettaskbyId";
+    const api = "http://localhost:5000/api/task/gettaskbyId/"+data;
     const admintoken = localStorage.getItem('token');
     const token = 'Bearer ' + admintoken;
 
     useEffect(() => {
+        const getEmpusername = async()=>{
+            const apiEmp ="http://localhost:5000/api/employee/getEmployeeByToken"
+           try{
+            const res = await axios.get(apiEmp,{headers:{
+                Authorization:token
+            }})
+            console.log(res.data);
+            setUsername(res.data.username);
+           }
+           catch(e){
+            console.log(e);
+           }
+        }
         const getTask = async () => {
             try {
-                const response = await axios.post(api, { tid: data }, {
+                const response = await axios.get(api, {
                     headers: {
                         Authorization: token
                     }
                 });
                 setTask(response.data);
+                console.log("task",response.data)
             } catch (error) {
                 console.error("Error fetching task details:", error);
             }
         };
         if (data) getTask();
+        getEmpusername();
     }, [data, token]);
 
 // const obj ={
@@ -58,12 +74,13 @@ const TaskDetails = () => {
 //                 }
 //             }
 
+
 const addComment = async (e) => {
     e.preventDefault();
     if (!sate.trim()) return; // Prevent empty comments
 
     const obj = {
-        "username": task?.username,
+        "username": username,
         "message": sate,
         "task": data
     };
@@ -78,11 +95,12 @@ const addComment = async (e) => {
 
         // Add new comment to state only if the API call succeeds
         setComments([...comments, {
-           "username": task?.username,
+           "username": username,
         "message": sate,
         "commentDate": new Date().toLocaleString()
         }]);
         setState("");
+      
         console.log("Comment added:", res.data);
     } catch (err) {
         console.error("Error adding comment:", err);
@@ -96,9 +114,10 @@ const addComment = async (e) => {
                     <EmployeeNavbar />
                 </div>
             </div>
-
+            <div className="container">
             <div className="row">
-                <div className="card col-lg-12">
+                <div className="col-sm-4"></div>
+                <div className="card col-sm-4 ">
                     <div className="card-header">
                         {task?.title || "Task Details"}
                     </div>
@@ -120,7 +139,7 @@ const addComment = async (e) => {
                     </div>
                 </div>
             </div>
-
+            </div>
 
             {/* comment part starts */}
 
@@ -159,8 +178,8 @@ const addComment = async (e) => {
             {
     comments.map((c, index) => (
         <div className="card" key={index}>
-            <p>{c?.username}</p>
-            <p>{c?.message}</p>
+        <strong>{c?.username} : </strong> <strong>{c?.message} </strong>
+            
             <p>{c?.commentDate}</p> {/* No need for toLocaleString() here */}
         </div>
     ))

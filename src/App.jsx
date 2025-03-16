@@ -17,6 +17,8 @@ import AddTask from './components/admin/addTask'
 import AddProject from './components/admin/addProject'
 import ProfileEmp from './components/employee/profileEmployee'
 import TaskDetails from './components/employee/taskDetails'
+import EmployeeUpdate from './components/admin/empUpdate'
+import HomeEmployee from './components/employee/empHome'
 // import CommentsEmp from './components/employee/commentsEmp'
 
 function App() {
@@ -35,8 +37,8 @@ function App() {
       <Route path='/admin/add-task' element={<AddTask />}></Route>
       <Route path='/admin/add-project' element={<AddProject />}></Route>
       <Route path='/employee/view-task' element={<TaskDetails />}></Route>
-      {/* <Route path='/employee/comment' element={<CommentsEmp />}></Route> */}
-
+      <Route path='/admin/employee/update' element={<EmployeeUpdate />}></Route>
+      <Route path='/employee/home' element={<HomeEmployee />}></Route>
       <Route path='/employee/employee-update' element={<ProfileEmp />}></Route>
    <Route path='/employee/employee-tasks' element={<EmployeeTaskbar />}></Route>
     </Routes>

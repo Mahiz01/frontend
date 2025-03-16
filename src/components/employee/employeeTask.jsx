@@ -27,6 +27,16 @@ let admintoken = localStorage.getItem("token");
         }
         getAllTasks();
     },[])
+
+    
+    const ArchieveTask = async(e)=>{
+        const archieveApi ="http://localhost:5000/api/task/updateTaskStatusById/"+e
+        const res = await axios.put(archieveApi,{"status":"archieve"},{headers:{
+           "Authorization": token}})
+        alert("Added to Archieve");
+        const new_task = [...task].filter((t)=>t._id!==e);
+        setTask(new_task);
+    }
     return(
 
         
@@ -38,10 +48,14 @@ let admintoken = localStorage.getItem("token");
                 
             </div>
         </div>
-        <div className="row">
-            <div className="col-md-6">
+            <div className="container">
+                <div className="row">
+
+              
             {
+                
                         task.map((t,index)=>(
+                            <div className="col-md-6 mt-4">
                             <div className="card" key={index}>
                    
                     <div className="card-header">
@@ -56,17 +70,22 @@ let admintoken = localStorage.getItem("token");
                         <br />
                         <br />
                         <NavLink to='/employee/view-task' state={{taskId:t._id}}> <button className="btn btn-info" > Details</button></NavLink>
+                        <button className="btn btn-primary ml-2" onClick={()=>{ArchieveTask(t._id)}}>Archieve</button>
                         
                     </div>
-                    <div className="card-footer">
+                    <div className="card-footer ">
                         End Date : {t.project.estimatedEndDate.split("T")[0]}
                     </div>
+
+                </div>
                 </div>
                         ))
                     }
+                      </div>
+                      </div>
                 
-            </div>
-        </div>
+            
+        
         </>
     )
 }

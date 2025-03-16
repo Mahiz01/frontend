@@ -5,9 +5,10 @@ const AdminNavbar = () => {
     <>
       <nav className="navbar navbar-expand-lg bg-body-tertiary">
         <div className="container-fluid">
-          <a className="navbar-brand" href="#">
-            Navbar
+         <NavLink to='/admin/dashboard'> <a className="navbar-brand" href="#">
+            Admin
           </a>
+          </NavLink>
           <button
             className="navbar-toggler"
             type="button"
@@ -58,6 +59,12 @@ const AdminNavbar = () => {
               <NavLink to='/admin/assign-task' style={{ 'textDecoration': 'none' }}>
               <a class="nav-link" href="#">Assign Task to Employee</a></NavLink>
               </li>
+              <li class="nav-item">
+                                <NavLink to="/" style={{textDecoration:'none'}}>
+                                {/* <a class="nav-link" href="#">LogOut</a> */}
+                                <button className="btn btn-secodary" > Logout</button>
+                                </NavLink>
+                            </li>
               {/* <li className="nav-item dropdown">
               <NavLink to='/admin/employee-onboarding' style={{ 'textDecoration': 'none' }}>
               <a class="nav-link" href="#">DropDown</a></NavLink>

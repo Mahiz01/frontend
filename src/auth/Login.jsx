@@ -4,6 +4,7 @@ import { useNavigate } from "react-router"
 function Login(){
     const [username,setUsername] = useState("")
     const [password,setPassword] = useState("")
+    const [msg,setMsg] = useState(false);
     const navigate = useNavigate();
     const processLogin =async ($e)=>{
         $e.preventDefault()
@@ -16,6 +17,7 @@ function Login(){
         })
 
         console.log(response);
+        setMsg("Login Success");
 
         localStorage.setItem('token',response.data.token)
         const role = response.data.role
@@ -33,6 +35,8 @@ function Login(){
         return
         }
         catch(e){
+            setMsg("Login failed");
+
             console.log(e);
         }
 
@@ -41,10 +45,10 @@ function Login(){
         <>
         <div className="row" style={{marginTop:"10%"}}>
             <div className="col-sm-4">
-
             </div>
             <div className="col-sm-4">
                 <div className="card-header">
+                    <p>{msg}</p>
                 ETMS LOGIN PAGE
                 </div>
                 <div className="card-body">
@@ -58,7 +62,7 @@ function Login(){
                         <input type="password" className="form-control" onChange={($event)=>setPassword($event.target.value)}/>
                         </div>
                         <div>
-                            <input type="submit" className="btn btn-primary"disabled= {!username || !password}/>
+                            <input type="submit" className="btn btn-primary mt-4"disabled= {!username || !password}/>
                         </div>
                     </form>
                 </div>
